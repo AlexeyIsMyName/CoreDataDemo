@@ -44,6 +44,21 @@ class StorageManager {
         return task
     }
     
+    func deleteData(_ task: Task) {
+        let context = persistentContainer.viewContext
+        
+        context.delete(task)
+        
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
     func fetchData() -> [Task] {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
