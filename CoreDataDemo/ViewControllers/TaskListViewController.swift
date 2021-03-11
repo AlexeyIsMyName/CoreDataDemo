@@ -9,9 +9,6 @@ import UIKit
 import CoreData
 
 class TaskListViewController: UITableViewController {
-
-    //private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
     private let cellID = "cell"
     private var taskList: [Task] = []
 
@@ -80,7 +77,7 @@ class TaskListViewController: UITableViewController {
     }
 }
 
-// MARK: - TAble View Data Source
+// MARK: - Table View Data Source
 extension TaskListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         taskList.count
@@ -93,5 +90,9 @@ extension TaskListViewController {
         content.text = task.name
         cell.contentConfiguration = content
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
