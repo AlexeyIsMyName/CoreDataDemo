@@ -21,9 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        saveContext()
+        let _ = StorageManager.shared.saveContext()
     }
 
+    /*
     // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CoreDataDemo")
@@ -47,4 +48,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    */
 }
