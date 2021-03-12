@@ -100,10 +100,9 @@ extension TaskListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        showAlert2(with: "Edit Task", and: "What do you want to change?", indexPath: indexPath)
+        showAlert2(with: "Edit Task", and: "What do you want to change?", indexPath: indexPath)
     }
     
-    /*
     private func showAlert2(with title: String, and message: String, indexPath: IndexPath) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let editAction = UIAlertAction(title: "Edit", style: .default) { _ in
@@ -112,17 +111,16 @@ extension TaskListViewController {
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addTextField()
-        alert.textFields?.first?.text = "11"
+        alert.textFields?.first?.text = taskList[indexPath.row].name
         alert.addAction(editAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
     }
     
     private func edit(_ taskName: String, _ indexPath: IndexPath) {
-        guard let task = StorageManager.shared.saveContext(taskName) else { return }
         StorageManager.shared.deleteData(taskList[indexPath.row])
+        guard let task = StorageManager.shared.saveContext(taskName) else { return }
         taskList[indexPath.row] = task
-        tableView.insertRows(at: [indexPath], with: .automatic)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
- */
 }
