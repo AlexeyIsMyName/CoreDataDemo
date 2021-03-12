@@ -52,27 +52,7 @@ class TaskListViewController: UITableViewController {
     }
     
     @objc private func addNewTask() {
-        showAlert(with: "New Task", and: "What do you want to do?")
-    }
-    
-    private func showAlert(with title: String, and message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
-            guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
-            self.save(task)
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
-        alert.addTextField()
-        alert.addAction(saveAction)
-        alert.addAction(cancelAction)
-        present(alert, animated: true)
-    }
-    
-    private func save(_ taskName: String) {
-        guard let task = StorageManager.shared.saveContext(taskName) else { return }
-        taskList.append(task)
-        let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
-        tableView.insertRows(at: [cellIndex], with: .automatic)
+        showNewTaskAlert(with: "New Task", and: "What do you want to do?")
     }
 }
 
@@ -100,10 +80,34 @@ extension TaskListViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        showAlert2(with: "Edit Task", and: "What do you want to change?", indexPath: indexPath)
+        showEditTaskAlert(with: "Edit Task", and: "What do you want to change?", indexPath: indexPath)
+    }
+}
+
+// MARK: - Alerts and reletad methods
+extension TaskListViewController {
+    private func showNewTaskAlert(with title: String, and message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+            guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
+            self.save(task)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        alert.addTextField()
+        alert.textFields?.first?.placeholder = "Sleep all day 😴"
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
     
-    private func showAlert2(with title: String, and message: String, indexPath: IndexPath) {
+    private func save(_ taskName: String) {
+        guard let task = StorageManager.shared.saveContext(taskName) else { return }
+        taskList.append(task)
+        let cellIndex = IndexPath(row: taskList.count - 1, section: 0)
+        tableView.insertRows(at: [cellIndex], with: .automatic)
+    }
+    
+    private func showEditTaskAlert(with title: String, and message: String, indexPath: IndexPath) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let editAction = UIAlertAction(title: "Edit", style: .default) { _ in
             guard let task = alert.textFields?.first?.text, !task.isEmpty else { return }
