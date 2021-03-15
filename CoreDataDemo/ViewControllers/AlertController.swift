@@ -7,7 +7,19 @@
 
 import UIKit
 
-class AlertController: UIAlertController {    
+class AlertController: UIAlertController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.subviews.first?.subviews.first?.subviews.first?.backgroundColor = UIColor(
+            red: 21/255,
+            green: 101/255,
+            blue: 192/255,
+            alpha: 0.3
+        )
+    }
+    
     func action(task: Task?, completion: @escaping (String) -> Void) {
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             guard let newValue = self.textFields?.first?.text else { return }
