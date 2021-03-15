@@ -5,7 +5,6 @@
 //  Created by ALEKSEY SUSLOV on 11.03.2021.
 //
 
-import Foundation
 import CoreData
 
 class StorageManager {
@@ -28,27 +27,48 @@ class StorageManager {
     }
 
     // MARK: - Core Data Saving support
-    func saveContext(_ taskName: String? = nil) -> Task? {
+    func fetchData() -> [Task] {
+        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
+        
+        do {
+            return try viewContext.fetch(fetchRequest)
+        } catch let error {
+            print(error.localizedDescription)
+            return []
+        }
+    }
+    
+    func saveData(_ taskName: String? = nil) -> Task? {
         guard let entityDescription = NSEntityDescription.entity(forEntityName: "Task", in: viewContext) else { return nil}
         guard let task = NSManagedObject(entity: entityDescription, insertInto: viewContext) as? Task else { return nil}
         
         task.name = taskName
         
-        if viewContext.hasChanges {
-            do {
-                try viewContext.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
-        
+        saveContext()
         return task
+    }
+    
+    func saveData(_ taskName: String, complition: (Task) -> Void) {
+        guard let entityDescription = NSEntityDescription.entity(forEntityName: "Task", in: viewContext) else { return }
+        guard let task = NSManagedObject(entity: entityDescription, insertInto: viewContext) as? Task else { return }
+        
+        task.name = taskName
+        
+        complition(task)
+        saveContext()
+    }
+    
+    func editData(_ task: Task, newName: String) {
+        task.name = newName
+        saveContext()
     }
     
     func deleteData(_ task: Task) {
         viewContext.delete(task)
-        
+        saveContext()
+    }
+    
+    func saveContext() {
         if viewContext.hasChanges {
             do {
                 try viewContext.save()
@@ -57,19 +77,5 @@ class StorageManager {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
-    }
-    
-    func fetchData() -> [Task] {
-        let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
-        
-        var taskList: [Task] = []
-        
-        do {
-            taskList = try viewContext.fetch(fetchRequest)
-        } catch let error {
-            print(error.localizedDescription)
-        }
-        
-        return taskList
     }
 }

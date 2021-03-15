@@ -13,6 +13,7 @@
 		E7CC608425FAA7200031CEAA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E7CC608225FAA7200031CEAA /* LaunchScreen.storyboard */; };
 		E7CC609125FAAAB50031CEAA /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CC609025FAAAB50031CEAA /* TaskListViewController.swift */; };
 		E7CC60A125FAB2A00031CEAA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CC60A025FAB2A00031CEAA /* StorageManager.swift */; };
+		E7EAAEAD25FFAE0E000AE88E /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EAAEAC25FFAE0E000AE88E /* AlertController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		E7CC608525FAA7200031CEAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E7CC609025FAAAB50031CEAA /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
 		E7CC60A025FAB2A00031CEAA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		E7EAAEAC25FFAE0E000AE88E /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				E7CC609025FAAAB50031CEAA /* TaskListViewController.swift */,
+				E7EAAEAC25FFAE0E000AE88E /* AlertController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7CC607F25FAA71E0031CEAA /* CoreDataDemo.xcdatamodeld in Sources */,
+				E7EAAEAD25FFAE0E000AE88E /* AlertController.swift in Sources */,
 				E7CC609125FAAAB50031CEAA /* TaskListViewController.swift in Sources */,
 				E7CC607525FAA71E0031CEAA /* AppDelegate.swift in Sources */,
 				E7CC60A125FAB2A00031CEAA /* StorageManager.swift in Sources */,
