@@ -10,14 +10,13 @@ import CoreData
 
 class TaskListViewController: UITableViewController {
     private let cellID = "cell"
-    private var taskList: [Task] = []
+    private var taskList = StorageManager.shared.fetchData()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         setupNavigationBar()
-        taskList = StorageManager.shared.fetchData()
     }
 
     private func setupNavigationBar() {

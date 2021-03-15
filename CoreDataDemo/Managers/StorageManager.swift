@@ -13,7 +13,7 @@ class StorageManager {
     private init() {}
     
     // MARK: - Core Data stack
-    private var persistentContainer: NSPersistentContainer = {
+    private let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CoreDataDemo")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -22,19 +22,21 @@ class StorageManager {
         })
         return container
     }()
+    
+    private var viewContext: NSManagedObjectContext {
+        persistentContainer.viewContext
+    }
 
     // MARK: - Core Data Saving support
     func saveContext(_ taskName: String? = nil) -> Task? {
-        let context = persistentContainer.viewContext
-        
-        guard let entityDescription = NSEntityDescription.entity(forEntityName: "Task", in: context) else { return nil}
-        guard let task = NSManagedObject(entity: entityDescription, insertInto: context) as? Task else { return nil}
+        guard let entityDescription = NSEntityDescription.entity(forEntityName: "Task", in: viewContext) else { return nil}
+        guard let task = NSManagedObject(entity: entityDescription, insertInto: viewContext) as? Task else { return nil}
         
         task.name = taskName
         
-        if context.hasChanges {
+        if viewContext.hasChanges {
             do {
-                try context.save()
+                try viewContext.save()
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -45,13 +47,11 @@ class StorageManager {
     }
     
     func deleteData(_ task: Task) {
-        let context = persistentContainer.viewContext
+        viewContext.delete(task)
         
-        context.delete(task)
-        
-        if context.hasChanges {
+        if viewContext.hasChanges {
             do {
-                try context.save()
+                try viewContext.save()
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -60,13 +60,12 @@ class StorageManager {
     }
     
     func fetchData() -> [Task] {
-        let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
         
         var taskList: [Task] = []
         
         do {
-            taskList = try context.fetch(fetchRequest)
+            taskList = try viewContext.fetch(fetchRequest)
         } catch let error {
             print(error.localizedDescription)
         }
