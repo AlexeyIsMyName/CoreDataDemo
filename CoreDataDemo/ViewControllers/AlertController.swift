@@ -7,13 +7,7 @@
 
 import UIKit
 
-class AlertController: UIAlertController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
-    
+class AlertController: UIAlertController {    
     func action(task: Task?, completion: @escaping (String) -> Void) {
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             guard let newValue = self.textFields?.first?.text else { return }
